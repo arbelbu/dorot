@@ -3,8 +3,8 @@ import webbrowser
 import os
 import urllib.parse
 dot = Graph(format='svg')
-dot.attr(ranksep="1.6", pad="1")#, , ranksep="20")  pad="24.5"nodesep="10"ranksep="1.6"
-dot.attr(splines='polyline')#curved.polyline
+dot.attr(ranksep="1.6", pad="1")# ranksep="20"  pad="24.5"  nodesep="10"
+dot.attr(splines='polyline')
 names_of_characters = open(os.path.join(os.path.dirname(__file__),"names_of_characters.txt"), 'r', encoding="utf-8")
 kinship_of_characters = os.path.join(os.path.dirname(__file__),'kinship_of_characters.txt')
 list_of_names = names_of_characters.read().split("\n")
@@ -13,17 +13,15 @@ def add_person(graph, number):
     name, tooltip = get_tooltip(number)
     wikipedia = "https://he.wikipedia.org/w/index.php?search="
     name_url = urllib.parse.quote(name.replace("w", "").replace("k", ""))
-    href = wikipedia + name_url
+    href = wikipedia + name_url + "(דמות מקראית)"
     # "https://he.wikipedia.org/wiki/%D7%90%D7%91%D7%A8%D7%94%D7%9D"
     if 'עתליהו' in name:
         graph.node(str(number) , name.replace("k" , "") , tooltip=tooltip , fillcolor="pink" , style="filled" , shape="rectangle" , href=href ,color="gold")
     if 'w' in name:
         graph.node(str(number) , name.replace("w", "") , tooltip=tooltip , fillcolor="pink" , style="filled" , shape="rectangle" , href=href)
     elif 'k' in name:
-
         graph.node(str(number) , name.replace("k" , "") , tooltip=tooltip , fillcolor="powderblue" , style="filled" , shape="rectangle" , href=href, color="gold")
     else:
-        #"#bdc9e1","#cbd5e8"
         graph.node(str(number), name, tooltip=tooltip, fillcolor="powderblue", style="filled", shape="rectangle", href=href)
 
 def chrome_hebrew(name):
@@ -101,11 +99,11 @@ def main():
             get_diagram_kings(kings[0], kings[1], source)
 
 main()
-print(dot.source)
+# print(dot.source)
 dorot_ = os.path.join(os.path.dirname(__file__),"dorot_")
 
 dot.render(filename=dorot_)
 chrome_path =  r"C:/Program Files/Google/Chrome/Application/chrome.exe %s"
-#chrome_path = 'C:/Users/burstain/AppData/Local/Google/Chrome/Application/chrome.exe --profile-directory="Profile 1" %s'
-#chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+# chrome_path = 'C:/Users/burstain/AppData/Local/Google/Chrome/Application/chrome.exe --profile-directory="Profile 1" %s'
+# chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
 webbrowser.get(chrome_path).open(dorot_+".svg")
